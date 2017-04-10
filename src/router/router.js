@@ -6,12 +6,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/home', // 首页
-    component: resolve => require([''],
+    component: resolve => require(['../components/home/home.vue'],
       resolve)
   },
   {
     path: '*',
-    redirect: '/login'
+    redirect: '/home'
   }
 ]
 

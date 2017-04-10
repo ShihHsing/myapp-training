@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <myHeader></myHeader>
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -32,32 +34,12 @@ export default {
 }
 </script>
 
-<style lang="less">
-@import '~vux/src/styles/reset.less';
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  html, body{
+    width: 100%;
+  }
 </style>
