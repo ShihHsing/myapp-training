@@ -2,10 +2,8 @@
   "root": true,
   "parser": "babel-eslint",
   "extends": "vue",
-  "plugins": ["flow-vars"],
+  "plugins": ["vue"],
   "rules": {
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1,
-    "eqeqeq": "error"
+    'vue/jsx-uses-vars': 2,
   }
 }
