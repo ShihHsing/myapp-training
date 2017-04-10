@@ -5,19 +5,14 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: 'dist/',
     filename: 'build.js'
   },
   module: {
-    rules: [
+    loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-          }
-          // other vue-loader options go here
-        }
+        loader: 'vux-loader!vue-loader'
       },
       {
         test: /\.js$/,
@@ -25,9 +20,25 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          { loader: 'less-loader', options: { strictMath: true, noIeCompat: true } }
+          ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
         loader: 'file-loader',
-        options: {
+        query: {
           name: '[name].[ext]?[hash]'
         }
       }

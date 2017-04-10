@@ -1,9 +1,7 @@
 {
-  "root": true,
-  "parser": "babel-eslint",
-  "extends": "vue",
-  "plugins": ["vue"],
-  "rules": {
+  extends: ["vue"],
+  plugins: ["vue"],
+  rules: {
     'vue/jsx-uses-vars': 2,
   }
 }
