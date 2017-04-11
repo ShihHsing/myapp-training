@@ -12,6 +12,20 @@
         </el-row>
       </el-col>
     </el-row>
+
+    <template v-if="searchList" v-for="item in searchList">
+      <el-row class="searchList">
+        <el-col :span="8" class="searchList_left">
+          <img src="../../img/img.png" alt="站位图">
+        </el-col>
+        <el-col :span="16" class="searchList_right">
+          <p class="title">门店如何统计大量客户的管理门店如何统计大量客户的管理门店如何统计大量客户的管理
+</p>
+          <p class="sub_title">机器人专业知识培训
+</p>
+        </el-col>
+      </el-row>
+    </template>
   </div>
 </template>
 
@@ -20,7 +34,8 @@
     name: 'trainingList',
     data () {
       return {
-        title: 'trainingList.vue'
+        title: 'trainingList.vue',
+        searchList: 5
       }
     }
   }
@@ -44,6 +59,36 @@
             color: #999;
           }
         }
+      }
+    }
+  }
+  .searchList{
+    padding: 15px 15px 0 15px;
+    &:after{
+      content: '';
+      width: 100%;
+      height: 14px;
+      border-bottom: 1px solid #e6e6e6;
+    }
+    .searchList_left{
+      img{
+        width: 100%;
+      }
+    }
+    .searchList_right{
+      box-sizing: border-box;
+      padding-left: 10px;
+      .title{
+        margin: 10px 0;
+        font-size: 16px;
+        color: #666;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .sub_title{
+        font-size: 12px;
+        color: #999;
       }
     }
   }
