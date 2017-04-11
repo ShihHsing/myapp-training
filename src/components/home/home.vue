@@ -1,38 +1,35 @@
 <template>
   <div id="home">
-    <mt-swipe 
-      :auto="4000"
-      style="height: 187.5px;">
-      <mt-swipe-item class="swipe">1</mt-swipe-item>
-      <mt-swipe-item class="swipe">2</mt-swipe-item>
-      <mt-swipe-item class="swipe">3</mt-swipe-item>
-    </mt-swipe>
+    <mt-loadmore 
+      :top-method="loadTop"
+      ref="loadmore"
+      :maxDistance="88">
+      <mySwiper></mySwiper>
+      <myFourGrid></myFourGrid>
+    </mt-loadmore>
   </div>
 </template>
 
 <script>
+  import mySwiper from './swiper.vue'
+  import myFourGrid from './fourGrid.vue'
   export default{
     name: 'home',
     data () {
       return {
-        title: 'home.vue'
+        title: 'home.vue',
+        topStatus: ''
       }
-    }
+    },
+    methods: {
+      loadTop () {
+        console.log(`下拉刷新!`)
+        setTimeout(() => {
+          this.$refs.loadmore.onTopLoaded()
+          window.location.reload()
+        }, 2000)
+      }
+    },
+    components: { mySwiper, myFourGrid }
   }
 </script>
-
-<style lang="less">
-  .swipe{
-    text-align: center;
-    line-height: 187.5px;
-  }
-  .swipe:nth-of-type(1){
-    background: red;
-  }
-  .swipe:nth-of-type(2){
-    background: yellow;
-  }
-  .swipe:nth-of-type(3){
-    background: blue;
-  }
-</style>

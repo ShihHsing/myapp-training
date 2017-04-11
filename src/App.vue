@@ -2,7 +2,9 @@
   <div id="app">
     <myHeader></myHeader>
     <!-- 路由匹配到的组件将渲染在这里 -->
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view style="margin-top: 44px;"></router-view>
+    </transition>
   </div>
 </template>
 
@@ -29,7 +31,6 @@ export default {
       })
     }
   },
-
   components: { myHeader }
 }
 </script>
@@ -41,5 +42,11 @@ export default {
   }
   html, body{
     width: 100%;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
   }
 </style>

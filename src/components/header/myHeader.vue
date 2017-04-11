@@ -2,11 +2,10 @@
   <div id="myHeader">
     <mt-header 
       :title="title"
-      style="height: 44px;">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-      <mt-button icon="search" slot="right"></mt-button>
+      fixed
+      style="height: 44px;background: #256ddb;">
+      <mt-button icon="back" slot="left" @click="go"></mt-button>
+      <mt-button icon="search" slot="right" @click="search" v-if="title !== '搜索'"></mt-button>
     </mt-header>
   </div>
 </template>
@@ -16,8 +15,22 @@
     name: 'myHeader',
     data () {
       return {
-        title: '培训'
       }
-    } 
+    },
+    computed: {
+      title: function () {
+        return this.$route.meta.title
+      }
+    },
+    methods: {
+      // 后退
+      go () {
+        console.log(`后退`)
+        this.$router.go(-1)
+      },
+      search () {
+        this.$router.push("/search")
+      }
+    }
   }
 </script>

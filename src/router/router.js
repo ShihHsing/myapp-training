@@ -7,7 +7,20 @@ const routes = [
   {
     path: '/home', // 首页
     component: resolve => require(['../components/home/home.vue'],
-      resolve)
+      resolve),
+    meta: { title: '培训' }
+  },
+  {
+    path: '/trainingList', // 全部课程
+    component: resolve => require(['../components/training/trainingList.vue'],
+      resolve),
+    meta: { title: '全部课程' }
+  },
+  {
+    path: '/search', // 搜索
+    component: resolve => require(['../components/search/search.vue'],
+      resolve),
+    meta: { title: '搜索' }
   },
   {
     path: '*',
