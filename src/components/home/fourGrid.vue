@@ -4,28 +4,67 @@
       <span class="left_text">推荐课程</span>
       <router-link to="/trainingList"><el-button type="text" class="right_button">更多<i class="el-icon-d-arrow-right my_icon"></i></el-button></router-link>
     </el-row>
-    <el-row type="flex" justify="space-between" class="first_grid" v-for="grid in gridList">
-      <el-col :span="12" class="grid">
-        <img src="../../img/r2_c2.png" alt="培训课程图片">
-        <div class="title">{{ grid }}门店如何统计大量客门店如何统计大量客</div>
-        <div class="sub_title">机器人专业知识培训</div>
-      </el-col>
-      <el-col :span="12" class="grid">
-        <img src="../../img/r2_c2.png" alt="培训课程图片">
-        <div class="title">门店如何统计大量客门店如何统计大量客</div>
-        <div class="sub_title">机器人专业知识培训</div>
-      </el-col>
+    <el-row class="first_grid">
+      <template v-for="list in gridList">
+        <router-link :to="{ path: 'details', query: { id: list.id, title: list.title }}">
+          <el-col :span="12" class="grid">
+            <div style="position: relative;overflow: hidden;">
+              <img src="../../img/img.png" alt="占位图片" class="placeholder_img">
+              <img :src="list.thumb_image" :alt="list.title" class="img">
+              <div style="clear: both;"></div>
+            </div>
+            <div class="title">{{ list.title }}</div>
+            <div class="sub_title">{{ list.classify_name }}</div>
+          </el-col>
+        </router-link>
+      </template>
     </el-row>
   </div>
 </template>
 
 <script>
+  import * as API from '../../axios/api.js'
   export default{
     name: 'fourGrid',
     data () {
       return {
         title: 'fourGrid.vue',
-        gridList: 2
+        gridList: []
+      }
+    },
+    created: function () {
+      // 获取推荐列表 4
+      this.getGrid()
+    },
+    methods: {
+      getGrid () {
+        this.$axios.post(API.listTrainingInfo)
+        .then(msg => {
+          console.log(msg.data)
+          var data = msg.data
+          var trainingList = this.myIsObject(data.training_list, 'recommend', 1)
+          // 从小到大排序
+          trainingList.sort((a, b) => {
+            return a.recommend_time < b.recommend_time ? 1 : -1
+          })
+          // 展示前四个
+          this.gridList = trainingList.slice(0, 4)
+          console.log(this.gridList, '处理后数据')
+        })
+        .catch(error => {
+          console.log(`error.return_code`)
+        })
+      },
+
+      // 判断数组中是否有特定的对象的值 若为假则剔除 并返回一个新的数组
+      myIsObject (Array, Object, ObjectVlaue) {
+        var myArray = Array.concat()
+        for (var i = myArray.length - 1; i >= 0; i--) {
+          if (myArray[i][Object] >> 0 !== ObjectVlaue) {
+            myArray.splice(i, 1)
+          }
+        }
+        return myArray
       }
     }
   }
@@ -63,9 +102,17 @@
     .grid{
       box-sizing: border-box;
       padding: 0 7.5px;
-      img{
+      .placeholder_img{
         width: 100%;
-        height: auto;
+      }
+      .img{
+        position: absolute;
+        height: 100%;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
       .title{
         font-size: 16px;

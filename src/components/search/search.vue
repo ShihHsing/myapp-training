@@ -1,13 +1,15 @@
 <template>
   <div id="search">
-    <el-row>
-      <el-col :span="24">
+    <el-row style="box-sizing: border-box;padding: 0 15px;">
+      <el-col :span="20" class="search_input">
         <el-input
           placeholder="搜索"
-          icon="search"
           v-model="value"
-          :on-icon-click="getSearchList">
+          autofocus>
         </el-input>
+      </el-col>
+      <el-col :span="4">
+        <el-button type="text" @click="getSearchList" style="float: right;padding-top: 15px;">搜索</el-button>
       </el-col>
     </el-row>
     <!-- <transition name="fade" mode="out-in"> -->
@@ -53,6 +55,13 @@
 </script>
 
 <style lang="less">
+  .search_input{
+    border-bottom: 1px solid #e6e6e6;
+    input{
+      border: none;
+      outline: none;
+    }
+  }
   .searchList{
     padding: 15px 15px 0 15px;
     &:after{

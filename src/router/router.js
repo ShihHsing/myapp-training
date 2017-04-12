@@ -23,6 +23,11 @@ const routes = [
     meta: { title: '搜索' }
   },
   {
+    path: '/details', // 搜索
+    component: resolve => require(['../components/details/details.vue'],
+      resolve)
+  },
+  {
     path: '*',
     redirect: '/home'
   }

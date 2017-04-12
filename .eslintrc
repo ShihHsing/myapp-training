@@ -3,5 +3,6 @@
   plugins: ["vue"],
   rules: {
     'vue/jsx-uses-vars': 2,
+    handle-callback-err: 0
   }
 }

@@ -1,0 +1,68 @@
+<template>
+  <div id="details">
+    <el-row v-html="value" class="detail">
+      
+    </el-row>
+  </div>
+</template>
+
+<script>
+  import * as API from '../../axios/api.js'
+  export default{
+    name: 'details',
+    filters: {},
+    watch: {},
+    data () {
+      return {
+        value: '',
+        id: this.$route.query.id
+      }
+    },
+    created: function () {
+      // 获取详情
+      if (this.$route.query.type) {
+        this.getSwiperDetails()
+      } else {
+        this.getDetailsValue()
+      }
+    },
+    methods: {
+      // 获取培训详情
+      getDetailsValue () {
+        const Data = {
+          'training_id': this.id
+        }
+        this.$axios.post(API.getTrainingDetail, Data)
+        .then(msg => {
+          console.log(msg.data)
+          const data = msg.data
+          this.value = data.training_detail.training_value
+        })
+      },
+      // 获取轮播图详情
+      getSwiperDetails () {
+        const Data = {
+          'carousel_drawing_id': this.id
+        }
+        this.$axios.post(API.getCarouselDrawingDetail, Data)
+        .then(msg => {
+          console.log(msg.data)
+          const data = msg.data
+          this.value = data.carousel_drawing_detail.value
+        })
+      }
+    },
+    components: {}
+  }
+</script>
+
+<style lang="less">
+  .detail{
+    img{
+      width: 100%;
+    }
+    iframe{
+      width: 100%;
+    }
+  }
+</style>
