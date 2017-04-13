@@ -34,7 +34,7 @@
         }
         this.$axios.post(API.getTrainingDetail, Data)
         .then(msg => {
-          console.log(msg.data)
+          // console.log(msg.data)
           const data = msg.data
           this.value = data.training_detail.training_value
         })
@@ -46,7 +46,7 @@
         }
         this.$axios.post(API.getCarouselDrawingDetail, Data)
         .then(msg => {
-          console.log(msg.data)
+          // console.log(msg.data)
           const data = msg.data
           this.value = data.carousel_drawing_detail.value
         })
@@ -57,12 +57,18 @@
 </script>
 
 <style lang="less">
-  .detail{
-    img{
-      width: 100%;
-    }
-    iframe{
-      width: 100%;
+  #details{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 44px;
+    .detail{
+      img{
+        width: 100%;
+      }
+      iframe{
+        width: 100%;
+      }
     }
   }
 </style>

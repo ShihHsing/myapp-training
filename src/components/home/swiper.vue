@@ -41,12 +41,12 @@
         }
         this.$axios.post(API.getSpecialCarouselDrawing, Data)
         .then(msg => {
-          console.log(msg.data)
+          // console.log(msg.data)
           const data = msg.data
           this.swiperList = data.carousel_drawing_list
         })
         .catch(error => {
-          console.log(`error.return_code`)
+          // console.log(`error.return_code`)
         })
       },
 

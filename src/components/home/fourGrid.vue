@@ -40,7 +40,7 @@
       getGrid () {
         this.$axios.post(API.listTrainingInfo)
         .then(msg => {
-          console.log(msg.data)
+          // console.log(msg.data)
           var data = msg.data
           var trainingList = this.myIsObject(data.training_list, 'recommend', 1)
           // 从小到大排序
@@ -49,10 +49,10 @@
           })
           // 展示前四个
           this.gridList = trainingList.slice(0, 4)
-          console.log(this.gridList, '处理后数据')
+          // console.log(this.gridList, '处理后数据')
         })
         .catch(error => {
-          console.log(`error.return_code`)
+          // console.log(`error.return_code`)
         })
       },
 

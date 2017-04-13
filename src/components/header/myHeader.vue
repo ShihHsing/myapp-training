@@ -30,7 +30,7 @@
     methods: {
       // 后退
       go () {
-        console.log(`后退`)
+        // console.log(`后退`)
         this.$router.go(-1)
       },
       search () {
@@ -43,5 +43,6 @@
 <style lang="less">
   #myHeader{
     z-index: 999999999;
+    width: 100%;
   }
 </style>

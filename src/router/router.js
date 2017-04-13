@@ -28,6 +28,12 @@ const routes = [
       resolve)
   },
   {
+    path: '/trainingDetails', // 搜索
+    component: resolve => require(['../components/training/trainingDetails.vue'],
+      resolve),
+    meta: { title: '测试' }
+  },
+  {
     path: '*',
     redirect: '/home'
   }

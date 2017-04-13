@@ -3,7 +3,7 @@
     <myHeader></myHeader>
     <!-- 路由匹配到的组件将渲染在这里 -->
     <transition name="fade" mode="out-in">
-      <router-view style="margin-top: 44px;"></router-view>
+      <router-view></router-view>
     </transition>
   </div>
 </template>
@@ -24,10 +24,10 @@ export default {
         name: 'shixin'
       })
       .then(msg => {
-        console.log(msg)
+        // console.log(msg)
       })
       .catch(error => {
-        console.log(`服务器${error}`)
+        // console.log(`服务器${error}`)
       })
     }
   },
@@ -40,8 +40,9 @@ export default {
     margin: 0;
     padding: 0;
   }
-  html, body{
+  html, body, #app{
     width: 100%;
+    height: 100%;
   }
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s

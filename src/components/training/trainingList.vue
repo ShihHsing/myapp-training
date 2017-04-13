@@ -3,40 +3,21 @@
     <el-row class="select">
       <el-col :span="12" class="select_left">
         <el-row type="flex" justify="center" class="align_items_center">
-          <!-- <el-button 
-            type="text" 
-            class="left_text span"
-            @click.stop="select = !select">综合
-            <template v-if="select">
-              <i class="el-icon-caret-top" style="color: #256ddb;"></i>
-            </template>
-            <template v-else>
-              <i class="el-icon-caret-bottom"></i>
-            </template>
-            </el-button> -->
+
             <el-select v-model="trainingClassify" placeholder="请选择" class="input_select">
               <el-option label="综合" value=""></el-option>
               <el-option
                 v-for="item in trainingClassifyList"
                 :label="item.classify_name"
-                :value="item.id">
+                :value="item.id"
+                :key="item.id">
               </el-option>
             </el-select>
         </el-row>
       </el-col>
       <el-col :span="12" class="select_right">
         <el-row type="flex" justify="center" class="align_items_center">
-          <!-- <el-button 
-            type="text" 
-            class="left_right span"
-            @click="time = !time">时间
-            <template v-if="time">
-              <i class="el-icon-caret-top" style="color: #256ddb;"></i>
-            </template>
-            <template v-else>
-              <i class="el-icon-caret-bottom" style="color: #256ddb;"></i>
-            </template>
-          </el-button> -->
+
           <el-select v-model="sort" placeholder="请选择" class="input_select">
             <el-option label="时间排序" value=""></el-option>
             <el-option label="从新->旧" value="0"></el-option>
@@ -45,41 +26,49 @@
         </el-row>
       </el-col>
     </el-row>
-    <!-- 下拉列表 -->
-    <!-- <transition
-      enter-active-class="animated fadeInDown"
-      leave-active-class="animated fadeOutUp">
-      <div class="select_left_down" v-if="select">
-        <template v-for="list in trainingClassifyList">
-          <el-row>
-            <el-col :span="20" class="select_text">
-              {{ list.classify_name }}
-            </el-col>
-            <el-col :span="4">
-              <i class="el-icon-check" style="color: #256ddb;padding-top: 8px;float: right;"></i>
-            </el-col>
-          </el-row>
-        </template>
-      </div>
-    </transition> -->
+    <mt-loadmore 
+      :top-method="loadTop"
+      ref="loadmore"
+      :maxDistance="88"
+      style="min-height: 80%;">
+      <template v-if="searchList.length != 0">
+        <mt-loadmore 
+          :bottom-method="loadBottom" 
+          :bottom-all-loaded="allLoaded" 
+          ref="loadBottomMore"
+          :maxDistance="88">
+          <template 
+            v-for="list in searchList">
+            <router-link :to="{ path: 'details', query: { id: list.id, title: list.title }}">
+              <el-row class="searchList">
+                <el-col :span="8" class="searchList_left">
+                  <div style="position: relative;overflow: hidden;">
+                    <img src="../../img/img.png" alt="占位图片" class="placeholder_img">
+                    <img :src="list.thumb_image" :alt="list.title" class="img">
+                    <div style="clear: both;"></div>
+                  </div>
+                </el-col>
+                <el-col :span="16" class="searchList_right">
+                  <p class="title">{{ list.title }}</p>
+                  <p class="sub_title">{{ list.classify_name }}</p>
+                </el-col>
+              </el-row>
+            </router-link> 
+          </template>
+        </mt-loadmore>
+      </template>
+      <template v-else>
+        <p style="text-align: center;margin-top: 30px;color: #333;height: 500px;">暂无数据，刷新页面尝试</p>
+      </template>
+    </mt-loadmore>
 
-    <template v-if="searchList" v-for="list in searchList">
-      <router-link :to="{ path: 'details', query: { id: list.id, title: list.title }}">
-        <el-row class="searchList">
-          <el-col :span="8" class="searchList_left">
-            <div style="position: relative;overflow: hidden;">
-              <img src="../../img/img.png" alt="占位图片" class="placeholder_img">
-              <img :src="list.thumb_image" :alt="list.title" class="img">
-              <div style="clear: both;"></div>
-            </div>
-          </el-col>
-          <el-col :span="16" class="searchList_right">
-            <p class="title">{{ list.title }}</p>
-            <p class="sub_title">{{ list.classify_name }}</p>
-          </el-col>
-        </el-row>
-      </router-link> 
-    </template>
+    <mt-spinner 
+      type="double-bounce" 
+      color="#256ddb" 
+      :size="30"
+      class="loding"
+      v-show="loading">
+    </mt-spinner>
   </div>
 </template>
 
@@ -99,8 +88,17 @@
         trainingClassify: '',
         // 排序
         sort: '',
-        select: false,
-        time: false
+        // 下拉
+        loading: false,
+        // 总页数
+        pages: 1,
+        // 当前页
+        currentPage: 1
+      }
+    },
+    computed: {
+      allLoaded: function () {
+        return !(this.currentPage < this.pages)
       }
     },
     created: function () {
@@ -109,16 +107,80 @@
       // 获取培训分类
       this.getTrainingClassifyList()
     },
-    methods: {
-      // 获取数据
-      getGrid () {
-        this.$axios.post(API.listTrainingInfo)
+    watch: {
+      sort: function (value) {
+        this.loading = true
+        this.mySort(this.searchList, value)
+      },
+      trainingClassify: function (value) {
+        this.loading = true
+        this.$axios.post(API.listTrainingInfo, {
+          'training_classify': value
+        })
         .then(msg => {
-          console.log(msg.data)
+          // console.log(msg.data)
           this.searchList = msg.data.training_list
+          this.clearLoding(800)
         })
         .catch(error => {
-          console.log(`error.return_code`)
+          // console.log(`error.return_code`)
+        })
+      }
+    },
+    methods: {
+      // 上拉获取下一页
+      loadBottom () {
+        // console.log('下一页')
+        this.loading = true
+        if (this.pages > this.currentPage) {
+          this.$axios.post(API.listTrainingInfo, {
+            'current_page': ++this.currentPage,
+            'training_classify': this.trainingClassify
+          })
+          .then(msg => {
+            // console.log(msg.data)
+            // 列表数据
+            for (var i = msg.data.training_list.length - 1; i >= 0; i--) {
+              this.searchList.push(msg.data.training_list[i])
+            }
+            // 总页数
+            this.pages = msg.data.pages
+            // 当前页
+            this.currentPage = msg.data.current_page
+            this.loading = false
+            this.$refs.loadBottomMore.onBottomLoaded()
+          })
+          .catch(error => {
+            // console.log(`error.return_code`)
+          })
+        }
+      },
+
+      // 下拉刷新
+      loadTop () {
+        this.loading = true
+        this.getGrid()
+      },
+
+      // 获取数据
+      getGrid () {
+        this.$axios.post(API.listTrainingInfo, {
+          'training_classify': this.trainingClassify
+        })
+        .then(msg => {
+          // console.log(msg.data)
+          // 列表数据
+          this.searchList = msg.data.training_list
+          this.mySort(this.searchList, this.sort)
+          // 总页数
+          this.pages = msg.data.pages
+          // 当前页
+          this.currentPage = msg.data.current_page
+          this.myOnTopLoaded('loadmore')
+          this.clearLoding(800)
+        })
+        .catch(error => {
+          // console.log(`error.return_code`)
         })
       },
 
@@ -127,11 +189,56 @@
         this.$axios.post(API.getTrainingClassifyList)
         .then(msg => {
           this.trainingClassifyList = msg.data.training_classify_list
-          console.log(this.trainingClassifyList)
+          // console.log(this.trainingClassifyList)
         })
         .catch(error => {
-          console.log(`error.return_code`)
+          // console.log(`error.return_code`)
         })
+      },
+
+      // 排序
+      mySort (Array, Number) {
+        switch (Number) {
+          case '0':
+            Array.sort((a, b) => {
+              return a.recommend_time < b.recommend_time ? 1 : -1
+            })
+            this.clearLoding(800)
+            return Array
+          case '1':
+            Array.sort((a, b) => {
+              return a.recommend_time > b.recommend_time ? 1 : -1
+            })
+            this.clearLoding(800)
+            return Array
+          default:
+            Array.sort((a, b) => {
+              return a.recommend_time < b.recommend_time ? 1 : -1
+            })
+            this.clearLoding(800)
+            return Array
+        }
+      },
+
+      // 关闭loading
+      clearLoding (time) {
+        setTimeout(() => {
+          this.loading = false
+        }, time)
+      },
+
+      // 下拉关闭刷新文字
+      myOnTopLoaded (mtRef) {
+        // setTimeout(() => {
+        this.$refs[mtRef].onTopLoaded()
+        // }, 800)
+      },
+      // 上拉关闭刷新文字
+      myOnBottomLoaded (mtRef) {
+        // setTimeout(() => {
+        this.allLoaded = true
+        this.$refs[mtRef].onBottomLoaded()
+        // }, 800)
       }
     }
   }
@@ -220,13 +327,35 @@
         font-size: 16px;
         color: #666;
         overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-break: break-all;
       }
       .sub_title{
         font-size: 12px;
         color: #999;
       }
+    }
+  }
+  #trainingList{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 44px;
+  }
+  .loding{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    z-index: 99999;
+    background: rgba(0,0,0,0.35);
+    .mint-spinner-double-bounce{
+      margin: auto;
+      top: 30%;
     }
   }
 </style>

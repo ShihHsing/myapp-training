@@ -3,7 +3,7 @@
     <mt-loadmore 
       :top-method="loadTop"
       ref="loadmore"
-      :maxDistance="88">
+      :maxDistance="0">
       <mySwiper></mySwiper>
       <myFourGrid></myFourGrid>
     </mt-loadmore>
@@ -23,7 +23,7 @@
     },
     methods: {
       loadTop () {
-        console.log(`下拉刷新!`)
+        // console.log(`下拉刷新!`)
         setTimeout(() => {
           this.$refs.loadmore.onTopLoaded()
           window.location.reload()
@@ -33,3 +33,11 @@
     components: { mySwiper, myFourGrid }
   }
 </script>
+<style lang="less">
+  #home{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 44px;
+  }
+</style>
