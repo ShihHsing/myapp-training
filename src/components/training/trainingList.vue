@@ -19,9 +19,15 @@
         <el-row type="flex" justify="center" class="align_items_center">
 
           <el-select v-model="sort" placeholder="请选择" class="input_select">
-            <el-option label="时间排序" value=""></el-option>
-            <el-option label="从新->旧" value="0"></el-option>
-            <el-option label="从旧->新" value="1"></el-option>
+            <el-option label="推荐" value="0"></el-option>
+            <el-option label="时间" value="1">
+              <span style="float: left">时间</span>
+              <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-arrow-up"></i></span>
+            </el-option>
+            <el-option label="时间" value="2">
+              <span style="float: left">时间</span>
+              <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-arrow-down"></i></span>
+            </el-option>
           </el-select>
         </el-row>
       </el-col>
@@ -55,6 +61,7 @@
               </el-row>
             </router-link> 
           </template>
+          <p v-if="allLoaded" style="text-align: center;color: #666;padding: 15px 0;">--------- 我也是有底线的 --------</p>
         </mt-loadmore>
       </template>
       <template v-else>
@@ -87,7 +94,7 @@
         // 类型
         trainingClassify: '',
         // 排序
-        sort: '',
+        sort: '0',
         // 下拉
         loading: false,
         // 总页数
@@ -110,16 +117,36 @@
     watch: {
       sort: function (value) {
         this.loading = true
-        this.mySort(this.searchList, value)
-      },
-      trainingClassify: function (value) {
-        this.loading = true
         this.$axios.post(API.listTrainingInfo, {
-          'training_classify': value
+          'sort': value,
+          'training_classify': this.trainingClassify
         })
         .then(msg => {
           // console.log(msg.data)
           this.searchList = msg.data.training_list
+          // 总页数
+          this.pages = msg.data.pages
+            // 当前页
+          this.currentPage = msg.data.current_page
+          this.clearLoding(800)
+        })
+        .catch(error => {
+          // console.log(`error.return_code`)
+        })
+      },
+      trainingClassify: function (value) {
+        this.loading = true
+        this.$axios.post(API.listTrainingInfo, {
+          'training_classify': value,
+          'sort': this.sort
+        })
+        .then(msg => {
+          // console.log(msg.data)
+          this.searchList = msg.data.training_list
+          // 总页数
+          this.pages = msg.data.pages
+          // 当前页
+          this.currentPage = msg.data.current_page
           this.clearLoding(800)
         })
         .catch(error => {
@@ -135,7 +162,8 @@
         if (this.pages > this.currentPage) {
           this.$axios.post(API.listTrainingInfo, {
             'current_page': ++this.currentPage,
-            'training_classify': this.trainingClassify
+            'training_classify': this.trainingClassify,
+            'sort': this.sort
           })
           .then(msg => {
             // console.log(msg.data)
@@ -165,13 +193,13 @@
       // 获取数据
       getGrid () {
         this.$axios.post(API.listTrainingInfo, {
-          'training_classify': this.trainingClassify
+          'training_classify': this.trainingClassify,
+          'sort': this.sort
         })
         .then(msg => {
           // console.log(msg.data)
           // 列表数据
           this.searchList = msg.data.training_list
-          this.mySort(this.searchList, this.sort)
           // 总页数
           this.pages = msg.data.pages
           // 当前页
@@ -194,30 +222,6 @@
         .catch(error => {
           // console.log(`error.return_code`)
         })
-      },
-
-      // 排序
-      mySort (Array, Number) {
-        switch (Number) {
-          case '0':
-            Array.sort((a, b) => {
-              return a.recommend_time < b.recommend_time ? 1 : -1
-            })
-            this.clearLoding(800)
-            return Array
-          case '1':
-            Array.sort((a, b) => {
-              return a.recommend_time > b.recommend_time ? 1 : -1
-            })
-            this.clearLoding(800)
-            return Array
-          default:
-            Array.sort((a, b) => {
-              return a.recommend_time < b.recommend_time ? 1 : -1
-            })
-            this.clearLoding(800)
-            return Array
-        }
       },
 
       // 关闭loading

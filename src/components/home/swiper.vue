@@ -5,7 +5,9 @@
       style="height: 187.5px;">
       <template v-for="list in swiperList">
         <mt-swipe-item class="swipe">
-          <img :src="list.url" :alt="list.name" @click="goDetails(list.id, list.name)">
+          <div class="progressive">
+            <img :src="list.url" :alt="list.name"/>
+          </div>
         </mt-swipe-item>
       </template>
     </mt-swipe>
@@ -22,7 +24,6 @@
         swiperList: []
       }
     },
-    filters: {},
     created: function () {
       // 获取轮播图
       this.getSwipe()

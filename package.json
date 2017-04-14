@@ -12,6 +12,7 @@
     "axios": "^0.16.1",
     "element-ui": "^1.2.8",
     "mint-ui": "^2.2.3",
+    "progressive-image": "^1.0.1",
     "vue": "^2.2.1"
   },
   "devDependencies": {
