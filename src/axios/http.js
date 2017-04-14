@@ -9,9 +9,7 @@ Vue.prototype.$Qs = Qs
 // axios 配置
 axios.defaults.timeout = 5000
 
-// https://bird.ioliu.cn/v1/?url=
 axios.defaults.baseURL = 'http://a001.aybc.so/'
-// axios.defaults.withCredentials = true
 
 // 请求前对数据做处理
 axios.defaults.transformRequest = [function (data) {

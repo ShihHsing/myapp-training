@@ -17,17 +17,16 @@
     name: 'home',
     data () {
       return {
-        title: 'home.vue',
-        topStatus: ''
+        title: 'home.vue'
       }
     },
     methods: {
+      // 刷新 偷懒
       loadTop () {
-        // console.log(`下拉刷新!`)
         setTimeout(() => {
           this.$refs.loadmore.onTopLoaded()
           window.location.reload()
-        }, 2000)
+        }, 1500)
       }
     },
     components: { mySwiper, myFourGrid }

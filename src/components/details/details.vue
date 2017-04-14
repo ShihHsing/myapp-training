@@ -1,8 +1,6 @@
 <template>
   <div id="details">
-    <el-row v-html="value" class="detail">
-      
-    </el-row>
+    <el-row v-html="value" class="detail"></el-row>
   </div>
 </template>
 
@@ -10,31 +8,23 @@
   import * as API from '../../axios/api.js'
   export default{
     name: 'details',
-    filters: {},
-    watch: {},
     data () {
       return {
-        value: '',
-        id: this.$route.query.id
+        value: ''
       }
     },
     created: function () {
       // 获取详情
-      if (this.$route.query.type) {
-        this.getSwiperDetails()
-      } else {
-        this.getDetailsValue()
-      }
+      this.$route.query.type ? this.getSwiperDetails() : this.getDetailsValue()
     },
     methods: {
       // 获取培训详情
       getDetailsValue () {
         const Data = {
-          'training_id': this.id
+          'training_id': this.$route.query.id
         }
         this.$axios.post(API.getTrainingDetail, Data)
         .then(msg => {
-          // console.log(msg.data)
           const data = msg.data
           this.value = data.training_detail.training_value
         })
@@ -42,17 +32,15 @@
       // 获取轮播图详情
       getSwiperDetails () {
         const Data = {
-          'carousel_drawing_id': this.id
+          'carousel_drawing_id': this.$route.query.id
         }
         this.$axios.post(API.getCarouselDrawingDetail, Data)
         .then(msg => {
-          // console.log(msg.data)
           const data = msg.data
           this.value = data.carousel_drawing_detail.value
         })
       }
-    },
-    components: {}
+    }
   }
 </script>
 

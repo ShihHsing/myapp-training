@@ -2,12 +2,12 @@
   <div id="swiper">
     <mt-swipe 
       :auto="4000"
-      style="height: 187.5px;">
+      class="mySwipe">
       <template v-for="list in swiperList">
         <mt-swipe-item class="swipe">
-          <div class="progressive">
+          <router-link :to="{'path': 'details', 'query': {'id': list.id, 'type': 'swiper', 'title': list.name}}">
             <img :src="list.url" :alt="list.name"/>
-          </div>
+          </router-link>
         </mt-swipe-item>
       </template>
     </mt-swipe>
@@ -42,29 +42,28 @@
         }
         this.$axios.post(API.getSpecialCarouselDrawing, Data)
         .then(msg => {
-          // console.log(msg.data)
           const data = msg.data
           this.swiperList = data.carousel_drawing_list
         })
         .catch(error => {
           // console.log(`error.return_code`)
         })
-      },
-
-      // 点击轮播图跳转详情页
-      goDetails (id, title) {
-        this.$router.push({ path: 'details', query: { id: id, type: 'swiper', title: title }})
       }
     }
   }
 </script>
 
 <style lang="less">
-  .swipe{
-    text-align: center;
-    line-height: 187.5px;
-    img{
-      height: 100%;
+  #swiper{
+    .mySwipe{
+      height: 187.5px;
+      .swipe{
+        text-align: center;
+        line-height: 187.5px;
+        img{
+          height: 100%;
+        }
+      }
     }
   }
 </style>

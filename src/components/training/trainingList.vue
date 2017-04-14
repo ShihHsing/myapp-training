@@ -81,7 +81,6 @@
 
 <script>
   import * as API from '../../axios/api.js'
-  import '../../public/animate.css'
   export default{
     name: 'trainingList',
     data () {

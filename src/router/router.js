@@ -1,4 +1,3 @@
-// 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -26,12 +25,6 @@ const routes = [
     path: '/details', // 搜索
     component: resolve => require(['../components/details/details.vue'],
       resolve)
-  },
-  {
-    path: '/trainingDetails', // 搜索
-    component: resolve => require(['../components/training/trainingDetails.vue'],
-      resolve),
-    meta: { title: '测试' }
   },
   {
     path: '*',

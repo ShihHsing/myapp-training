@@ -1,6 +1,6 @@
 <template>
   <div id="search">
-    <el-row style="box-sizing: border-box;padding: 0 15px;">
+    <el-row class="search_body">
       <el-col :span="20" class="search_input">
         <el-input
           placeholder="搜索"
@@ -9,7 +9,7 @@
         </el-input>
       </el-col>
       <el-col :span="4">
-        <el-button type="text" @click="getSearchList" style="float: right;padding-top: 15px;">搜索</el-button>
+        <el-button type="text" @click="getSearchList" class="search_button">搜索</el-button>
       </el-col>
     </el-row>
     <template v-if="searchList.length != 0">
@@ -25,7 +25,6 @@
                 <div style="position: relative;overflow: hidden;">
                   <img src="../../img/img.png" alt="占位图片" class="placeholder_img">
                   <img :src="list.thumb_image" :alt="list.title" class="img">
-                  <div style="clear: both;"></div>
                 </div>
               </el-col>
               <el-col :span="16" class="searchList_right">
@@ -71,7 +70,6 @@
           'keyword': this.value
         })
         .then(msg => {
-          // console.log(msg.data)
           var data = msg.data
           switch (data.flag >> 0) {
             case 1000:
@@ -95,10 +93,8 @@
       },
       // 下拉关闭刷新文字
       myOnTopLoaded (mtRef) {
-        // setTimeout(() => {
         this.$refs[mtRef].onTopLoaded()
         this.loading = false
-        // }, 800)
       }
     }
   }
@@ -111,65 +107,73 @@
     height: 100%;
     box-sizing: border-box;
     padding-top: 44px;
-  }
-  .loding{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 150%;
-    z-index: 99999;
-    background: rgba(0,0,0,0.35);
-    .mint-spinner-double-bounce{
-      margin: auto;
-      top: 30%;
-    }
-  }
-  .search_input{
-    border-bottom: 1px solid #e6e6e6;
-    input{
-      border: none;
-      outline: none;
-    }
-  }
-  .searchList{
-    padding: 15px 15px 0 15px;
-    &:after{
-      content: '';
-      width: 100%;
-      height: 14px;
-      border-bottom: 1px solid #e6e6e6;
-    }
-    .searchList_left{
-      .placeholder_img{
-        width: 100%;
-      }
-      .img{
-        position: absolute;
-        height: 100%;
-        margin: auto;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
-    }
-    .searchList_right{
+    .search_body{
       box-sizing: border-box;
-      padding-left: 10px;
-      .title{
-        margin: 10px 0;
-        font-size: 16px;
-        color: #666;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        word-break: break-all;
+      padding: 0 15px;
+      .search_input{
+        border-bottom: 1px solid #e6e6e6;
+        input{
+          border: none;
+          outline: none;
+        }
       }
-      .sub_title{
-        font-size: 12px;
-        color: #999;
+      .search_button{
+        float: right;
+        padding-top: 15px;
+      }
+    }
+    .searchList{
+      padding: 15px 15px 0 15px;
+      &:after{
+        content: '';
+        width: 100%;
+        height: 14px;
+        border-bottom: 1px solid #e6e6e6;
+      }
+      .searchList_left{
+        .placeholder_img{
+          width: 100%;
+        }
+        .img{
+          position: absolute;
+          height: 100%;
+          margin: auto;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+      }
+      .searchList_right{
+        box-sizing: border-box;
+        padding-left: 10px;
+        .title{
+          margin: 10px 0;
+          font-size: 16px;
+          color: #666;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          word-break: break-all;
+        }
+        .sub_title{
+          font-size: 12px;
+          color: #999;
+        }
+      }
+    }
+    .loding{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 150%;
+      z-index: 99999;
+      background: rgba(0,0,0,0.35);
+      .mint-spinner-double-bounce{
+        margin: auto;
+        top: 30%;
       }
     }
   }

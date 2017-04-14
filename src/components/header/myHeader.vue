@@ -3,9 +3,15 @@
     <mt-header 
       :title="title"
       fixed
-      style="height: 44px;background: #256ddb;z-index: 99999;">
-      <mt-button icon="back" slot="left" @click="go"></mt-button>
-      <mt-button icon="search" slot="right" @click="search" v-if="title !== '搜索'"></mt-button>
+      class="myHeader">
+      <mt-button slot="left" @click="retreat">
+        <i class="el-icon-arrow-left search_icon"></i>
+      </mt-button>
+      <mt-button slot="right" v-if="title !== '搜索'">
+        <router-link to="/search">
+          <i class="el-icon-search search_icon"></i>
+        </router-link>
+      </mt-button>
     </mt-header>
   </div>
 </template>
@@ -20,21 +26,13 @@
     computed: {
       // 动态获取详情页title
       title: function () {
-        if (this.$route.meta.title) {
-          return this.$route.meta.title
-        } else {
-          return this.$route.query.title
-        }
+        return this.$route.meta.title ? this.$route.meta.title : this.$route.query.title
       }
     },
     methods: {
       // 后退
-      go () {
-        // console.log(`后退`)
+      retreat () {
         this.$router.go(-1)
-      },
-      search () {
-        this.$router.push('/search')
       }
     }
   }
@@ -44,5 +42,14 @@
   #myHeader{
     z-index: 999999999;
     width: 100%;
+    .myHeader{
+      font-size: 16px;
+      height: 44px;
+      background: #256ddb;
+      z-index: 99999;
+      .search_icon{
+        color: #fff;
+      }
+    }
   }
 </style>
