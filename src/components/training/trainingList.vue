@@ -19,15 +19,15 @@
         <el-row type="flex" justify="center" class="align_items_center">
 
           <el-select v-model="sort" placeholder="请选择" class="input_select">
-            <el-option label="推荐" value="0"></el-option>
-            <el-option label="时间" value="1">
+            <el-option label="推荐排序" value="0"></el-option>
+            <el-option label="按上传时间" value="1">
               <span style="float: left">时间</span>
               <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-arrow-up"></i></span>
             </el-option>
-            <el-option label="时间" value="2">
+            <!-- <el-option label="" value="2">
               <span style="float: left">时间</span>
               <span style="float: right; color: #8492a6; font-size: 13px"><i class="el-icon-arrow-down"></i></span>
-            </el-option>
+            </el-option> -->
           </el-select>
         </el-row>
       </el-col>
