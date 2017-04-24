@@ -52,7 +52,7 @@
     padding-top: 44px;
     .detail{
       img{
-        width: 100%;
+        width: 100% !important;
       }
       iframe{
         width: 100%;
