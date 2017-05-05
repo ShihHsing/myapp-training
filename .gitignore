@@ -4,3 +4,5 @@
 *api.js
 *npm-debug.log
 *yarn-error.log
+/*.zip
+node_modules

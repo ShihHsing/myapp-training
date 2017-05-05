@@ -21,6 +21,7 @@
     name: 'myHeader',
     data () {
       return {
+        path: this.$route.path
       }
     },
     computed: {
@@ -32,7 +33,11 @@
     methods: {
       // 后退
       retreat () {
-        this.$router.go(-1)
+        if (this.path === '/home') {
+          back()
+        } else {
+          this.$router.go(-1)
+        }
       }
     }
   }
