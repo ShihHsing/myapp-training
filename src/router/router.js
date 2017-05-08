@@ -10,6 +10,12 @@ const routes = [
     meta: { title: '培训' }
   },
   {
+    path: '/logOut', // 退出
+    component: resolve => require(['../components/header/logOut.vue'],
+      resolve),
+    meta: { title: '培训' }
+  },
+  {
     path: '/trainingList', // 全部课程
     component: resolve => require(['../components/training/trainingList.vue'],
       resolve),

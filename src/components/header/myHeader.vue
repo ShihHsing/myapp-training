@@ -20,21 +20,22 @@
   export default{
     name: 'myHeader',
     data () {
-      return {
-        path: this.$route.path
-      }
+      return {}
     },
     computed: {
       // 动态获取详情页title
       title: function () {
         return this.$route.meta.title ? this.$route.meta.title : this.$route.query.title
+      },
+      path: function () {
+        return this.$route.path
       }
     },
     methods: {
       // 后退
       retreat () {
         if (this.path === '/home') {
-          window.location.href = 'aybc://back'
+          this.$router.push('/logOut')
         } else {
           this.$router.go(-1)
         }
