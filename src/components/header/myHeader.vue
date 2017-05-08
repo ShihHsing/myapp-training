@@ -34,7 +34,7 @@
       // 后退
       retreat () {
         if (this.path === '/home') {
-          back()
+          window.location.href = 'aybc://back'
         } else {
           this.$router.go(-1)
         }
