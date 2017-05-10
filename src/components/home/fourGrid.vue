@@ -12,7 +12,7 @@
       </router-link>
     </el-row>
     <el-row class="first_grid">
-      <template v-for="list in gridList">
+      <template v-for="list in gridList" v-if="gridList">
         <router-link
           :to="{ path: 'details', query: { id: list.id, title: list.title }}">
           <el-col :span="12" class="grid">
