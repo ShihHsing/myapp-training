@@ -9,7 +9,7 @@ Vue.prototype.$Qs = Qs
 // axios 配置
 axios.defaults.timeout = 5000
 
-axios.defaults.baseURL = 'https://a001.aybc.so/'
+axios.defaults.baseURL = 'http://a001.aybc.so/'
 
 // 请求前对数据做处理
 axios.defaults.transformRequest = [function (data) {
