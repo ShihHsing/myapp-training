@@ -1,6 +1,6 @@
 <template>
   <div id="myHeader">
-    <mt-header 
+    <mt-header
       :title="title"
       fixed
       class="myHeader">
