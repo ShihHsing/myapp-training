@@ -1,8 +1,8 @@
 <template>
   <div id="fourGrid">
-    <el-row 
-      class="recommended_course" 
-      type="flex" 
+    <el-row
+      class="recommended_course"
+      type="flex"
       justify="space-between">
       <span class="left_text">推荐课程</span>
       <router-link to="/trainingList">
@@ -13,7 +13,7 @@
     </el-row>
     <el-row class="first_grid">
       <template v-for="list in gridList">
-        <router-link 
+        <router-link
           :to="{ path: 'details', query: { id: list.id, title: list.title }}">
           <el-col :span="12" class="grid">
             <div style="position: relative;overflow: hidden;">
@@ -47,18 +47,23 @@
       getGrid () {
         this.$axios.post(API.listTrainingInfo)
         .then(msg => {
-          // console.log(msg.data)
           const data = msg.data
-          var trainingList = this.myIsObject(data.training_list, 'recommend', 1)
-          // 从小到大排序
-          trainingList.sort((a, b) => {
-            return a.recommend_time < b.recommend_time ? 1 : -1
-          })
-          // 展示前四个
-          this.gridList = trainingList.slice(0, 4)
+          switch (data.flag >> 0) {
+            case 1000:
+              var trainingList = this.myIsObject(data.training_list, 'recommend', 1)
+              // 从小到大排序
+              trainingList.sort((a, b) => {
+                return a.recommend_time < b.recommend_time ? 1 : -1
+              })
+              // 展示前四个
+              this.gridList = trainingList.slice(0, 4)
+              break
+            default:
+              console.log(`${data.return_code}`)
+          }
         })
         .catch(error => {
-          // console.log(`error.return_code`)
+          console.log(`${error.return_code}`)
         })
       },
       // 判断数组中是否有特定的对象的值 若为假则剔除 并返回一个新的数组
