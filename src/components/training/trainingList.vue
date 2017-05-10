@@ -8,6 +8,7 @@
               <el-option label="综合" value=""></el-option>
               <el-option
                 v-for="item in trainingClassifyList"
+                v-if="trainingClassifyList"
                 :label="item.classify_name"
                 :value="item.id"
                 :key="item.id">
@@ -44,7 +45,8 @@
           ref="loadBottomMore"
           :maxDistance="88">
           <template
-            v-for="list in searchList">
+            v-for="list in searchList"
+            v-if="searchList">
             <router-link :to="{ path: 'details', query: { id: list.id, title: list.title }}">
               <el-row class="searchList">
                 <el-col :span="8" class="searchList_left">
@@ -121,16 +123,26 @@
           'training_classify': this.trainingClassify
         })
         .then(msg => {
-          // console.log(msg.data)
-          this.searchList = msg.data.training_list
-          // 总页数
-          this.pages = msg.data.pages
-          // 当前页
-          this.currentPage = msg.data.current_page
-          this.clearLoding(800)
+          const data = msg.data
+          switch (data.flag >> 0) {
+            case 1000:
+              this.searchList = data.training_list
+              // 总页数
+              this.pages = data.pages
+              // 当前页
+              this.currentPage = data.current_page
+              this.clearLoding(800)
+              break;
+            default:
+              // 恢复默认值
+              this.initial()
+              console.log(`${data.return_code}`)
+          }
         })
         .catch(error => {
-          // console.log(`error.return_code`)
+          // 恢复默认值
+          this.initial()
+          console.log(`${error.return_code}`)
         })
       },
       trainingClassify: function (value) {
@@ -140,20 +152,37 @@
           'sort': this.sort
         })
         .then(msg => {
-          // console.log(msg.data)
-          this.searchList = msg.data.training_list
-          // 总页数
-          this.pages = msg.data.pages
-          // 当前页
-          this.currentPage = msg.data.current_page
-          this.clearLoding(800)
+          const data = msg.data
+          switch (data.flag >> 0) {
+            case 1000:
+              this.searchList = msg.data.training_list
+              // 总页数
+              this.pages = msg.data.pages
+              // 当前页
+              this.currentPage = msg.data.current_page
+              this.clearLoding(800)
+              break
+            default:
+              // 恢复默认值
+              this.initial()
+              console.log(`${data.return_code}`)
+          }
         })
         .catch(error => {
-          // console.log(`error.return_code`)
+          // 恢复默认值
+          this.initial()
+          console.log(`${error.return_code}`)
         })
       }
     },
     methods: {
+      // 恢复默认值
+      initial () {
+        this.clearLoding(800)
+        this.searchList = ''
+        this.pages = 1
+        this.currentPage = 1
+      },
       // 上拉获取下一页
       loadBottom () {
         this.loading = true
@@ -177,7 +206,7 @@
                 this.currentPage = data.current_page
                 this.loading = false
                 this.$refs.loadBottomMore.onBottomLoaded()
-                break;
+                break
               default:
                 console.log(`${data.return_code}`)
             }
@@ -214,10 +243,14 @@
               this.clearLoding(800)
               break;
             default:
+              // 恢复默认值
+              this.initial()
               console.log(`${data.return_code}`);
           }
         })
         .catch(error => {
+          // 恢复默认值
+          this.initial()
           console.log(`${error.return_code}`)
         })
       },
@@ -232,10 +265,12 @@
               this.trainingClassifyList = msg.data.training_classify_list
               break;
             default:
+              this.trainingClassifyList = []
               console.log(`${data.return_code}`)
           }
         })
         .catch(error => {
+          this.trainingClassifyList = []
           console.log(`${error.return_code}`)
         })
       },
@@ -249,16 +284,12 @@
 
       // 下拉关闭刷新文字
       myOnTopLoaded (mtRef) {
-        // setTimeout(() => {
         this.$refs[mtRef].onTopLoaded()
-        // }, 800)
       },
       // 上拉关闭刷新文字
       myOnBottomLoaded (mtRef) {
-        // setTimeout(() => {
         this.allLoaded = true
         this.$refs[mtRef].onBottomLoaded()
-        // }, 800)
       }
     }
   }
