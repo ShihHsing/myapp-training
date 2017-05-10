@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
     <template v-if="searchList.length != 0">
-      <mt-loadmore 
+      <mt-loadmore
         :top-method="loadTop"
         ref="loadmore"
         :maxDistance="88"
@@ -32,7 +32,7 @@
                 <p class="sub_title">{{ list.classify_name }}</p>
               </el-col>
             </el-row>
-          </router-link> 
+          </router-link>
         </template>
       </mt-loadmore>
     </template>
@@ -41,9 +41,9 @@
     </template>
     </mt-loadmore>
 
-    <mt-spinner 
-      type="double-bounce" 
-      color="#256ddb" 
+    <mt-spinner
+      type="double-bounce"
+      color="#256ddb"
       :size="30"
       class="loding"
       v-show="loading">
@@ -59,8 +59,7 @@
       return {
         value: '',
         searchList: [],
-        // 下拉
-        loading: false
+        loading: false // 下拉
       }
     },
     methods: {
@@ -84,7 +83,7 @@
         })
         .catch(error => {
           this.myOnTopLoaded('loadmore')
-          // console.log(`error.return_code`)
+          console.log(`${error.return_code}`)
         })
       },
       // 下拉刷新
