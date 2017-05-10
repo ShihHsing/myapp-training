@@ -32,18 +32,18 @@
         </el-row>
       </el-col>
     </el-row>
-    <mt-loadmore 
+    <mt-loadmore
       :top-method="loadTop"
       ref="loadmore"
       :maxDistance="88"
       style="min-height: 80%;">
       <template v-if="searchList.length != 0">
-        <mt-loadmore 
-          :bottom-method="loadBottom" 
-          :bottom-all-loaded="allLoaded" 
+        <mt-loadmore
+          :bottom-method="loadBottom"
+          :bottom-all-loaded="allLoaded"
           ref="loadBottomMore"
           :maxDistance="88">
-          <template 
+          <template
             v-for="list in searchList">
             <router-link :to="{ path: 'details', query: { id: list.id, title: list.title }}">
               <el-row class="searchList">
@@ -59,7 +59,7 @@
                   <p class="sub_title">{{ list.classify_name }}</p>
                 </el-col>
               </el-row>
-            </router-link> 
+            </router-link>
           </template>
           <p v-if="allLoaded" style="text-align: center;color: #666;padding: 15px 0;">--------- 我也是有底线的 --------</p>
         </mt-loadmore>
@@ -69,9 +69,9 @@
       </template>
     </mt-loadmore>
 
-    <mt-spinner 
-      type="double-bounce" 
-      color="#256ddb" 
+    <mt-spinner
+      type="double-bounce"
+      color="#256ddb"
       :size="30"
       class="loding"
       v-show="loading">
@@ -125,7 +125,7 @@
           this.searchList = msg.data.training_list
           // 总页数
           this.pages = msg.data.pages
-            // 当前页
+          // 当前页
           this.currentPage = msg.data.current_page
           this.clearLoding(800)
         })
@@ -156,7 +156,6 @@
     methods: {
       // 上拉获取下一页
       loadBottom () {
-        // console.log('下一页')
         this.loading = true
         if (this.pages > this.currentPage) {
           this.$axios.post(API.listTrainingInfo, {
@@ -165,20 +164,26 @@
             'sort': this.sort
           })
           .then(msg => {
-            // console.log(msg.data)
-            // 列表数据
-            for (var i = msg.data.training_list.length - 1; i >= 0; i--) {
-              this.searchList.push(msg.data.training_list[i])
+            const data = msg.data
+            switch (data.flag >> 0) {
+              case 1000:
+                // 列表数据
+                for (let i = data.training_list.length - 1; i >= 0; i--) {
+                  this.searchList.push(data.training_list[i])
+                }
+                // 总页数
+                this.pages = data.pages
+                // 当前页
+                this.currentPage = data.current_page
+                this.loading = false
+                this.$refs.loadBottomMore.onBottomLoaded()
+                break;
+              default:
+                console.log(`${data.return_code}`)
             }
-            // 总页数
-            this.pages = msg.data.pages
-            // 当前页
-            this.currentPage = msg.data.current_page
-            this.loading = false
-            this.$refs.loadBottomMore.onBottomLoaded()
           })
           .catch(error => {
-            // console.log(`error.return_code`)
+            console.log(`${error.return_code}`)
           })
         }
       },
@@ -196,18 +201,24 @@
           'sort': this.sort
         })
         .then(msg => {
-          // console.log(msg.data)
-          // 列表数据
-          this.searchList = msg.data.training_list
-          // 总页数
-          this.pages = msg.data.pages
-          // 当前页
-          this.currentPage = msg.data.current_page
-          this.myOnTopLoaded('loadmore')
-          this.clearLoding(800)
+          const data = msg.data
+          switch (data.flag >>0) {
+            case 1000:
+              // 列表数据
+              this.searchList = data.training_list
+              // 总页数
+              this.pages = data.pages
+              // 当前页
+              this.currentPage = data.current_page
+              this.myOnTopLoaded('loadmore')
+              this.clearLoding(800)
+              break;
+            default:
+              console.log(`${data.return_code}`);
+          }
         })
         .catch(error => {
-          // console.log(`error.return_code`)
+          console.log(`${error.return_code}`)
         })
       },
 
@@ -215,11 +226,17 @@
       getTrainingClassifyList () {
         this.$axios.post(API.getTrainingClassifyList)
         .then(msg => {
-          this.trainingClassifyList = msg.data.training_classify_list
-          // console.log(this.trainingClassifyList)
+          const data = msg.data
+          switch (data.flag >> 0) {
+            case 1000:
+              this.trainingClassifyList = msg.data.training_classify_list
+              break;
+            default:
+              console.log(`${data.return_code}`)
+          }
         })
         .catch(error => {
-          // console.log(`error.return_code`)
+          console.log(`${error.return_code}`)
         })
       },
 
