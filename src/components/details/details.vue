@@ -48,6 +48,7 @@
   #details{
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
     box-sizing: border-box;
     padding-top: 44px;
     .detail{
