@@ -13,24 +13,9 @@ import myHeader from './components/header/myHeader.vue'
 export default {
   name: 'app',
   data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+    return {}
   },
-
-  methods: {
-    eslint () {
-      this.$axios.post('axiosTest', {
-        name: 'shixin'
-      })
-      .then(msg => {
-        // console.log(msg)
-      })
-      .catch(error => {
-        // console.log(`服务器${error}`)
-      })
-    }
-  },
+  methods: {},
   components: { myHeader }
 }
 </script>
