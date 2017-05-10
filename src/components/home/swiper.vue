@@ -1,6 +1,6 @@
 <template>
   <div id="swiper">
-    <mt-swipe 
+    <mt-swipe
       :auto="4000"
       class="mySwipe">
       <template v-for="list in swiperList">
@@ -43,10 +43,16 @@
         this.$axios.post(API.getSpecialCarouselDrawing, Data)
         .then(msg => {
           const data = msg.data
-          this.swiperList = data.carousel_drawing_list
+          switch (data.flag >> 0) {
+            case 1000:
+              this.swiperList = data.carousel_drawing_list
+              break;
+            default:
+              console.log(`${data.return_code}`);
+          }
         })
         .catch(error => {
-          // console.log(`error.return_code`)
+          console.log(`${error.return_code}`)
         })
       }
     }

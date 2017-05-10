@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <mt-loadmore 
+    <mt-loadmore
       :top-method="loadTop"
       ref="loadmore"
       :maxDistance="0">
@@ -32,6 +32,7 @@
     components: { mySwiper, myFourGrid }
   }
 </script>
+
 <style lang="less">
   #home{
     width: 100%;
