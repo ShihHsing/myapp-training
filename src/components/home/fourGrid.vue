@@ -59,10 +59,12 @@
               this.gridList = trainingList.slice(0, 4)
               break
             default:
+              this.gridList = []
               console.log(`${data.return_code}`)
           }
         })
         .catch(error => {
+          this.gridList = []
           console.log(`${error.return_code}`)
         })
       },
