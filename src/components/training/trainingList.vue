@@ -182,6 +182,7 @@
         this.searchList = ''
         this.pages = 1
         this.currentPage = 1
+        this.loading = false
       },
       // 上拉获取下一页
       loadBottom () {
@@ -241,6 +242,7 @@
               this.currentPage = data.current_page
               this.myOnTopLoaded('loadmore')
               this.clearLoding(800)
+              this.loading = false
               break;
             default:
               // 恢复默认值
