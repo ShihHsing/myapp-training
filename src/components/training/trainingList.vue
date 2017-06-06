@@ -178,6 +178,7 @@
     methods: {
       // 恢复默认值
       initial () {
+        this.myOnTopLoaded('loadmore')
         this.clearLoding(800)
         this.searchList = ''
         this.pages = 1
