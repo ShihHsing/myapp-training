@@ -83,7 +83,7 @@
         })
         .catch(error => {
           this.myOnTopLoaded('loadmore')
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
         })
       },
       // 下拉刷新

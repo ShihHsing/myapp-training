@@ -48,12 +48,12 @@
               this.swiperList = data.carousel_drawing_list
               break;
             default:
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
               this.swiperList = []
           }
         })
         .catch(error => {
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
           this.swiperList = []
         })
       }

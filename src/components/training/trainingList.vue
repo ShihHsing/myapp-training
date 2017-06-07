@@ -136,13 +136,13 @@
             default:
               // 恢复默认值
               this.initial()
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
           }
         })
         .catch(error => {
           // 恢复默认值
           this.initial()
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
         })
       },
       trainingClassify: function (value) {
@@ -165,13 +165,13 @@
             default:
               // 恢复默认值
               this.initial()
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
           }
         })
         .catch(error => {
           // 恢复默认值
           this.initial()
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
         })
       }
     },
@@ -210,11 +210,11 @@
                 this.$refs.loadBottomMore.onBottomLoaded()
                 break
               default:
-                console.log(`${data.return_code}`)
+                console.log(data.return_code)
             }
           })
           .catch(error => {
-            console.log(`${error.return_code}`)
+            console.log(error.return_code)
           })
         }
       },
@@ -248,13 +248,13 @@
             default:
               // 恢复默认值
               this.initial()
-              console.log(`${data.return_code}`);
+              console.log(data.return_code);
           }
         })
         .catch(error => {
           // 恢复默认值
           this.initial()
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
         })
       },
 
@@ -269,12 +269,12 @@
               break;
             default:
               this.trainingClassifyList = []
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
           }
         })
         .catch(error => {
           this.trainingClassifyList = []
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
         })
       },
 

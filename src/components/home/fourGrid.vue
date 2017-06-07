@@ -60,12 +60,12 @@
               break
             default:
               this.gridList = []
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
           }
         })
         .catch(error => {
           this.gridList = []
-          console.log(`${error.return_code}`)
+          console.log(error.return_code)
         })
       },
       // 判断数组中是否有特定的对象的值 若为假则剔除 并返回一个新的数组

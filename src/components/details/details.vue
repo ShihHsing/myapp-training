@@ -36,7 +36,7 @@
               this.value = data.training_detail.training_value
               break;
             default:
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
           }
         })
       },
@@ -53,7 +53,7 @@
               this.value = data.carousel_drawing_detail.value
               break;
             default:
-              console.log(`${data.return_code}`)
+              console.log(data.return_code)
           }
         })
       }
