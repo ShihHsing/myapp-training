@@ -4,6 +4,7 @@ import router from './router/router.js'
 import Axios from './axios/http.js'
 import './MintUi/index.js'
 import './ElementUi/index.js'
+import 'babel-polyfill'
 
 new Vue({
   el: '#app',
