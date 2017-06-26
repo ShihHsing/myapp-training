@@ -72,6 +72,7 @@
           var data = msg.data
           switch (data.flag >> 0) {
             case 1000:
+              this.loading = false
               this.searchList = msg.data.training_list
               this.myOnTopLoaded('loadmore')
               break
@@ -83,6 +84,7 @@
         })
         .catch(error => {
           this.myOnTopLoaded('loadmore')
+          this.loading = false
           console.log(error.return_code)
         })
       },
