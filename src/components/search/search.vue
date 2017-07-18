@@ -70,22 +70,20 @@
         })
         .then(msg => {
           var data = msg.data
+          this.loading = false
           switch (data.flag >> 0) {
             case 1000:
-              this.loading = false
               this.searchList = msg.data.training_list
               this.myOnTopLoaded('loadmore')
               break
             default:
               this.searchList = []
-              this.loading = false
               break
           }
         })
         .catch(error => {
-          this.myOnTopLoaded('loadmore')
           this.loading = false
-          console.log(error.return_code)
+          this.myOnTopLoaded('loadmore')
         })
       },
       // 下拉刷新
