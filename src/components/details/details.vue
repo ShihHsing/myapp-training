@@ -1,11 +1,6 @@
 <template>
   <div id="details">
-    <template v-if="value">
-      <el-row v-html="value" class="detail"></el-row>
-    </template>
-    <template v-else>
-      <p style="text-align: center;margin-top: 30px;color: #333;height: 500px;">暂无数据，刷新页面尝试</p>
-    </template>
+    <el-row v-html="value" class="detail"></el-row>
   </div>
 </template>
 
@@ -34,9 +29,9 @@
           switch (data.flag >> 0) {
             case 1000:
               this.value = data.training_detail.training_value
-              break;
+              break
             default:
-              console.log(data.return_code)
+              this.value = '<p style="text-align: center;margin-top: 30px;color: #333;height: 500px;">暂无数据，刷新页面尝试</p>'
           }
         })
       },
@@ -51,9 +46,9 @@
           switch (data.flag >> 0) {
             case 1000:
               this.value = data.carousel_drawing_detail.value
-              break;
+              break
             default:
-              console.log(data.return_code)
+              this.value = '<p style="text-align: center;margin-top: 30px;color: #333;height: 500px;">暂无数据，刷新页面尝试</p>'
           }
         })
       }
